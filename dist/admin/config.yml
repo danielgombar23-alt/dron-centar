@@ -1,0 +1,121 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Publish mode - editorial workflow omogucava draft -> review -> publish
+publish_mode: editorial_workflow
+
+# Media folder - gde se cuvaju slike
+media_folder: "public/images/blog"
+public_folder: "/images/blog"
+
+# Kolekcije
+collections:
+  - name: "blog"
+    label: "Blog Postovi"
+    folder: "content/blog"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "/blog/{{slug}}"
+    fields:
+      - label: "Naslov"
+        name: "title"
+        widget: "string"
+        required: true
+        hint: "SEO naslov blog posta (max 60 karaktera)"
+      
+      - label: "Slug (URL)"
+        name: "slug"
+        widget: "string"
+        required: true
+        hint: "URL-friendly naziv (npr. precizna-poljoprivreda-dronovima)"
+        pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Samo mala slova, brojevi i crtice"]
+      
+      - label: "Meta Opis (SEO)"
+        name: "metaDescription"
+        widget: "text"
+        required: true
+        hint: "Kratak opis za pretrazivace (max 160 karaktera)"
+      
+      - label: "Meta Ključne Reči (SEO)"
+        name: "metaKeywords"
+        widget: "list"
+        required: false
+        hint: "Ključne reči odvojene zarezom"
+        field: { label: "Ključna reč", name: "keyword", widget: "string" }
+      
+      - label: "Datum Objave"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        required: true
+      
+      - label: "Autor"
+        name: "author"
+        widget: "string"
+        default: "Dron Centar"
+        required: true
+      
+      - label: "Kategorija"
+        name: "category"
+        widget: "select"
+        options: 
+          - "Precizna poljoprivreda"
+          - "Dron tehnologija"
+          - "Fotogrametrija"
+          - "Multispectralna analiza"
+          - "Saveti i trikovi"
+          - "Novosti"
+        required: true
+      
+      - label: "Tagovi (Hashtagovi)"
+        name: "tags"
+        widget: "list"
+        required: false
+        hint: "Dodajte tagove za bolju pretragu"
+        field: { label: "Tag", name: "tag", widget: "string" }
+      
+      - label: "Izdvojena Slika"
+        name: "featuredImage"
+        widget: "image"
+        required: true
+        hint: "Glavna slika blog posta (preporučena dimenzija 1200x630)"
+        media_library:
+          config:
+            multiple: false
+      
+      - label: "Video (opciono)"
+        name: "videoUrl"
+        widget: "string"
+        required: false
+        hint: "YouTube ili Vimeo URL (npr. https://youtube.com/watch?v=...)"
+      
+      - label: "Uvodni Tekst"
+        name: "excerpt"
+        widget: "text"
+        required: true
+        hint: "Kratak uvod koji se prikazuje na listi blogova (max 200 karaktera)"
+      
+      - label: "Sadržaj"
+        name: "body"
+        widget: "markdown"
+        required: true
+        hint: "Glavni sadržaj blog posta"
+      
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Nacrt", value: "draft" }
+          - { label: "U pregledu", value: "review" }
+          - { label: "Spremno za objavu", value: "ready" }
+          - { label: "Objavljeno", value: "published" }
+        default: "draft"
+      
+      - label: "Prikaži na početnoj strani"
+        name: "featured"
+        widget: "boolean"
+        default: false
+        hint: "Označite da se prikaže u izdvojenim postovima na početnoj"
